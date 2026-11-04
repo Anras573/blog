@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import Base from './Base.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { readingTime, slugifyTag, type Post } from '../lib/posts';
+import { url } from '../consts';
+
+interface Props { post: Post }
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, heroImage } = post.data;
+---
+<Base title={title} description={description} image={heroImage?.src} type="article">
+  <article class="post">
+    <header>
+      <h1>{title}</h1>
+      <p class="meta">
+        <FormattedDate date={pubDate} />
+        {updatedDate && <>{' · updated '}<FormattedDate date={updatedDate} /></>}
+        {` · ${readingTime(post.body)}`}
+      </p>
+      {tags.length > 0 && (
+        <ul class="tags">
+          {tags.map((t) => <li><a href={url(`tags/${slugifyTag(t)}/`)}>#{t}</a></li>)}
+        </ul>
+      )}
+    </header>
+    {heroImage && <Image class="hero" src={heroImage} alt="" widths={[720, 1440]} sizes="(min-width: 720px) 720px, 100vw" />}
+    <div class="prose"><slot /></div>
+  </article>
+</Base>

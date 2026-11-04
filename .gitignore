@@ -1,8 +1,7 @@
-_site/
+dist/
+.astro/
 node_modules/
+.env
+.env.*
 .DS_Store
-js/min.js
-js/min.js.map
-.vscode/
-.netlify/
-export
+npm-debug.log*

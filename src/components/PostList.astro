@@ -1,0 +1,19 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import type { Post } from '../lib/posts';
+import { url } from '../consts';
+interface Props { posts: Post[] }
+const { posts } = Astro.props;
+---
+<ul class="post-list">
+  {posts.map((post) => (
+    <li>
+      <FormattedDate date={post.data.pubDate} />
+      <div>
+        <a href={url(`posts/${post.id}/`)}>{post.data.title}</a>
+        {post.data.draft && <span class="badge">draft</span>}
+        <p>{post.data.description}</p>
+      </div>
+    </li>
+  ))}
+</ul>
